@@ -1,25 +1,56 @@
-import logo from './logo.svg';
-import './App.css';
+import { toBeEmpty } from '@testing-library/jest-dom/dist/matchers';
+import {React, useState , useEffect , useMemo} from 'react'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+const App = () => {
+  
+  const [name, setName] = useState();
+  const [state, setState] = useState(
+    {
+      name : "",
+      selected : false,
+      city : 'seoul'
+    }
   );
+
+  const user = useMemo( () => ({
+    name : state.name,
+    selected : state.selected
+
+  }) , [state.name, state.selected] );
+
+  useEffect( () => {
+    console.log(`useEffect runs! = ${state}`);
+  } , [state.name, state.selected] );
+
+  const temp = (val) => {
+     setName(val);
+  };
+
+  const AddName = () => {
+    //setName(val);
+    setState( (prev) => {
+      return {...prev, name }
+    } );
+  };
+
+  const AddState = () => {
+    setState( (prev) => ({ ...prev , selected : true}) );
+  };
+
+  return (
+    <div>
+
+      <input onChange = {(e) =>  setName(e.target.value) } /> <br/>
+      <button onClick={AddName} >Name</button>
+      <button onClick={AddState} >State</button>
+      <br/><br/>
+      {
+        ` name : ${state.name} // 
+        selected : ${state.selected}`
+      }
+
+    </div>
+  )
 }
 
-export default App;
+export default App
