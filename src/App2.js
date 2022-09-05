@@ -6,10 +6,14 @@ const App2 = () => {
 
     useEffect( () => {
         console.log('effect');
-        setInterval( () => { 
+        const interval= setInterval( () => { 
             setTimer((prev) => prev + 1 ) ;
             //console.log(`prev  = ${prev} `);
-        }, 1000 )
+        }, 1000 );
+
+        return (() => {
+            clearInterval(interval);
+        });
 
     } , []);
 
@@ -19,7 +23,7 @@ const App2 = () => {
   return (
     <div>
 
-        <h1>{timer}abcefbcdwg</h1>
+        <h1>{timer} </h1>
     </div>
   )
 }
